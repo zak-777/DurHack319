@@ -23,9 +23,6 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///binthere_user.db'
 app.config['SQLALCHEMY_ECHO'] = True
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///binthere_posts.db'
-app.config['SQLALCHEMY_ECHO'] = True
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 
 metadata = MetaData(
@@ -119,8 +116,9 @@ admin.add_view(UserView(User, db.session))
 # IMPORT BLUEPRINTS
 from accounts.views import accounts_bp
 from posts.views import posts_bp
-
+from security.views import security_bp
 
 # REGISTER BLUEPRINTS
 app.register_blueprint(accounts_bp)
 app.register_blueprint(posts_bp)
+app.register_blueprint(security_bp)
