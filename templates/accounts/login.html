@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container">
+        <h1>Login</h1>
+        <div class="p-2 row">
+            <div class="col-2"></div>
+            <div class="col-8">
+                {% if form %}
+                    <form method="POST">
+                        <div class="p-2 bg-light border border-primary" style="text-align: left">
+                            {{ form.csrf_token() }}
+                            <div>
+                                {% with messages = get_flashed_messages(with_categories=true) %}
+                                {% if messages %}
+                                    {% for category, message in messages %}
+                                        <div class="alert alert-{{ category }} mt-3 alert-dismissible" role="alert">
+                                            {{ message }}
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert" onclick=delete_flash(this)></button>
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+                                {% endwith %}
+                            </div>
+
+                            <div class="form-group">
+                                {{ form.email.label }}<span style="color: red">*</span>
+                                {{ form.email(class="form-control") }}
+                            </div>
+
+                            <div class="form-group">
+                                {{ form.password.label }}<span style="color: red">*</span>
+                                {{ form.password(class="form-control") }}
+                            </div>
+
+                            <div class="form-group">
+                                {{ form.recaptcha() }}
+                            </div>
+
+                            <div>
+                                {{ form.submit(class="btn btn-success") }}
+                            </div>
+                        </div>
+                    </form>
+                {% else %}
+                    <!-- Show unlock link when form is hidden due to too many attempts -->
+                    <p>Your account is locked.
+                        <a href="{{ url_for('accounts.unlock_account') }}">Click here to unlock it</a>.
+                    </p>
+                {% endif %}
+            </div>
+            <div class="col-2"></div>
+        </div>
+    </div>
+{% endblock %}
